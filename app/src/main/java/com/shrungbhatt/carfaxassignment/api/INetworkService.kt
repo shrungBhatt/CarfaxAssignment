@@ -1,5 +1,6 @@
 package com.shrungbhatt.carfaxassignment.api
 
+import com.shrungbhatt.carfaxassignment.data.responses.CarListingResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +12,7 @@ interface INetworkService {
 
     //@Todo: Change the response type
     @GET("assignment.json")
-    suspend fun getCars(): List<Any>
+    suspend fun getCars(): CarListingResponse
 
     companion object {
         private const val BASE_URL = "https://carfax-for-consumers.firebaseio.com/"
