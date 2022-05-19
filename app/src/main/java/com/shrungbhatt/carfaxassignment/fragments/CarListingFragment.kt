@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.shrungbhatt.carfaxassignment.adapters.CarListAdapter
 import com.shrungbhatt.carfaxassignment.databinding.FragmentCarListingBinding
+import com.shrungbhatt.carfaxassignment.util.EventType
 import com.shrungbhatt.carfaxassignment.viewmodels.CarListingFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -21,6 +24,7 @@ class CarListingFragment : Fragment() {
     private val viewModel: CarListingFragmentViewModel by viewModels()
     private val adapter = CarListAdapter()
     private var fetchJob: Job? = null
+    private var snackBar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,10 +33,25 @@ class CarListingFragment : Fragment() {
     ): View {
         binding = FragmentCarListingBinding.inflate(inflater, container, false)
         binding.carList.adapter = adapter
+        binding.viewModel = viewModel
+
+        setupSwipeRefresh()
         subscribeToUI()
+        observeEvents()
         getCars()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        snackBar = Snackbar.make(view, "", Snackbar.LENGTH_SHORT)
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            getCars()
+        }
     }
 
     private fun subscribeToUI() {
@@ -45,6 +64,16 @@ class CarListingFragment : Fragment() {
         fetchJob?.cancel()
         fetchJob = lifecycleScope.launch {
             viewModel.fetchCars()
+        }
+    }
+
+    private fun observeEvents() {
+        lifecycleScope.launch {
+            viewModel.eventChannel.eventFlow.collectLatest {
+                when (it.type) {
+                    EventType.ERROR, EventType.INVALID_DATA -> snackBar?.setText(it.message)?.show()
+                }
+            }
         }
     }
 

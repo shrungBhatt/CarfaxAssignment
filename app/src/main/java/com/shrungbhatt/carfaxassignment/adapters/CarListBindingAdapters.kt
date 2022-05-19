@@ -1,5 +1,6 @@
 package com.shrungbhatt.carfaxassignment.adapters
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -21,6 +22,14 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }
+}
+
+@BindingAdapter("isVisible")
+fun viewIsVisible(view: View, isVisible: Boolean){
+    if(isVisible)
+        view.visibility = View.VISIBLE
+    else
+        view.visibility = View.GONE
 }
 
 @BindingAdapter("year", "make", "model", "trim")

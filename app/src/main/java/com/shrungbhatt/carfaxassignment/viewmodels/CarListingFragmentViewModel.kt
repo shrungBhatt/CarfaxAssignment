@@ -1,36 +1,64 @@
 package com.shrungbhatt.carfaxassignment.viewmodels
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shrungbhatt.carfaxassignment.data.models.Car
 import com.shrungbhatt.carfaxassignment.repositories.CarListingRepository
-import dagger.hilt.android.AndroidEntryPoint
+import com.shrungbhatt.carfaxassignment.util.EventType
+import com.shrungbhatt.carfaxassignment.util.IEventChannel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CarListingFragmentViewModel @Inject constructor(
-    private val repository: CarListingRepository
-): ViewModel(){
+    private val repository: CarListingRepository,
+    val eventChannel: IEventChannel
+) : ViewModel() {
 
     val cars: MutableLiveData<List<Car>> by lazy {
         MutableLiveData<List<Car>>()
     }
 
+    val isRefreshing = ObservableBoolean()
+    val noData = ObservableBoolean(true)
+
     fun fetchCars() {
         viewModelScope.launch {
+            startedLoading()
             repository.latestData
                 .catch {
-
+                    eventChannel.emitEvent(
+                        EventType.ERROR,
+                        it.message ?: "Unknown error"
+                    )
+                    finishedLoading()
                 }
-                .collect{
-                cars.value = it
-            }
+                .collect {
+                    receivedCars(it)
+                    finishedLoading()
+                }
         }
+    }
+
+    private fun startedLoading() {
+        isRefreshing.set(true)
+    }
+
+    private fun finishedLoading() {
+        isRefreshing.set(false)
+    }
+
+    private fun receivedCars(cars: List<Car>) {
+        if (cars.isEmpty()) {
+            noData.set(true)
+        } else {
+            noData.set(false)
+        }
+        this.cars.value = cars
     }
 
 }
