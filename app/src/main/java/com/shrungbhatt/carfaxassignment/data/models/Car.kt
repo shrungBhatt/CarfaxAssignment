@@ -19,14 +19,15 @@ data class Car(
     @field:SerializedName("interiorColor") val interiorColor: String?,
     @field:SerializedName("engine") val engine: String?,
     @field:SerializedName("displacement") val displacement: String?,
-    @field:SerializedName("driveType") val driveType: String?,
+    @field:SerializedName("drivetype") val driveType: String?,
     @field:SerializedName("transmission") val transmission: String?,
-    @field:SerializedName("bodyType") val bodyType: String?,
+    @field:SerializedName("bodytype") val bodyType: String?,
     @field:SerializedName("images") val images: Images?,
     @field:SerializedName("year") val year: Int?,
     @field:SerializedName("make") val make: String?,
     @field:SerializedName("model") val model: String?,
-    @field:SerializedName("trim") val trim: String?
+    @field:SerializedName("trim") val trim: String?,
+    @field:SerializedName("fuel") val fuel: String?
 ) : Parcelable {
     val dealerPhoneNumber: String
         get() {

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/CarfaxAssignment/app/src/main/res/layout/fragment_car_details.xml" value="0.22" />
         <entry key="..\:/AndroidProjects/CarfaxAssignment/app/src/main/res/layout/list_item_car.xml" value="0.26063829787234044" />
       </map>
     </option>

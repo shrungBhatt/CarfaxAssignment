@@ -1,5 +1,7 @@
 package com.shrungbhatt.carfaxassignment.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +26,14 @@ class CarDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCarDetailsBinding.inflate(inflater, container, false)
+        binding.apply {
+            car = carListingArgs.car
+        }
+        binding.callDealer.setOnClickListener {
+            val uri = "tel:" + binding.car?.dealerPhoneNumber
+            val intent = Intent(Intent.ACTION_DIAL).also { it.data = Uri.parse(uri) }
+            startActivity(intent)
+        }
         return binding.root
     }
 
