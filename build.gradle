@@ -25,6 +25,7 @@ buildscript {
         okhttpLoggingVersion = '4.8.1'
         retrofitVersion = '2.9.0'
         roomVersion = '2.4.2'
+        swipeRefreshLayout = '1.1.0'
         testExtJunit = '1.1.3'
 
 

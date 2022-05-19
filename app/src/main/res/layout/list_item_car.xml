@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="car"
+            type="com.shrungbhatt.carfaxassignment.data.models.Car" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/carImage"
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:background="@color/black"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/car_image"
+                app:imageFromUrl="@{car.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/car_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:year="@{car.year}"
+                app:make="@{car.make}"
+                app:model="@{car.model}"
+                app:trim="@{car.trim}"
+                app:layout_constraintTop_toBottomOf="@id/carImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Car model name" />
+
+            <TextView
+                android:id="@+id/car_price_mileage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                app:price="@{car.currentPrice}"
+                app:mileage="@{car.mileage}"
+                app:layout_constraintTop_toBottomOf="@id/car_model"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Price | Mileage" />
+
+            <TextView
+                android:id="@+id/car_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                app:city="@{car.dealerCity}"
+                app:state="@{car.dealerState}"
+                app:layout_constraintTop_toBottomOf="@id/car_price_mileage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/divider"
+                tools:text="City, State" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:background="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/car_location"/>
+
+            <TextView
+                android:id="@+id/call_dealer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/call_dealer"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

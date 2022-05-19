@@ -16,6 +16,10 @@ data class Car(
     @field:SerializedName("transmission") val transmission: String?,
     @field:SerializedName("bodyType") val bodyType: String?,
     @field:SerializedName("images") val images: Images?,
+    @field:SerializedName("year") val year: Long?,
+    @field:SerializedName("make") val make: String?,
+    @field:SerializedName("model") val model: String?,
+    @field:SerializedName("trim") val trim: String?
 ) {
     val phoneNumber: String
         get() {
@@ -23,13 +27,25 @@ data class Car(
         }
 
     val imageUrl: String
-        get(){
+        get() {
             return images?.map?.get("large") ?: ""
+        }
+
+    val dealerCity: String
+        get(){
+            return dealer?.city ?: ""
+        }
+
+    val dealerState: String
+        get(){
+            return dealer?.state ?: ""
         }
 }
 
 data class Dealer(
-    val phone: String?
+    val phone: String?,
+    val city: String?,
+    val state: String?
 )
 
 data class Images(

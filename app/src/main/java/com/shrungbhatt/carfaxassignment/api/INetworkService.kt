@@ -10,7 +10,6 @@ import retrofit2.http.Query
 
 interface INetworkService {
 
-    //@Todo: Change the response type
     @GET("assignment.json")
     suspend fun getCars(): CarListingResponse
 
