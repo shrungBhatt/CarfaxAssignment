@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CarfaxAssignment</string>
+    <string name="app_name">CARFAX</string>
     <string name="no_data_available">No cars available</string>
     <string name="car_image">Car image</string>
     <string name="call_dealer">CALL DEALER</string>

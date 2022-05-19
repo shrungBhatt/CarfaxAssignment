@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shrungbhatt.carfaxassignment.data.models.Car
 import com.shrungbhatt.carfaxassignment.repositories.CarListingRepository
-import com.shrungbhatt.carfaxassignment.util.EventType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

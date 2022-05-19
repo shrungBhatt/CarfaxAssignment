@@ -1,5 +1,7 @@
 package com.shrungbhatt.carfaxassignment.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +16,11 @@ import com.shrungbhatt.carfaxassignment.adapters.ICarListAdapterCallback
 import com.shrungbhatt.carfaxassignment.data.models.Car
 import com.shrungbhatt.carfaxassignment.data.models.Dealer
 import com.shrungbhatt.carfaxassignment.databinding.FragmentCarListingBinding
-import com.shrungbhatt.carfaxassignment.util.EventType
 import com.shrungbhatt.carfaxassignment.viewmodels.CarListingFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class CarListingFragment : Fragment() {
@@ -42,13 +43,17 @@ class CarListingFragment : Fragment() {
         setupSwipeRefresh()
         subscribeToUI()
         observeEvents()
-        getCars()
+        loadData()
 
         return binding.root
     }
 
+    private fun loadData() {
+        if (viewModel.cars.value == null) getCars()
+    }
+
     private fun setupRecyclerView() {
-        adapter = CarListAdapter (object:ICarListAdapterCallback{
+        adapter = CarListAdapter(object : ICarListAdapterCallback {
             override fun onCarClick(car: Car) {
                 binding.root.findNavController().navigate(
                     CarListingFragmentDirections.actionToCarDetailsFromCarList(car)
@@ -56,7 +61,9 @@ class CarListingFragment : Fragment() {
             }
 
             override fun onCarDealerClick(dealer: Dealer) {
-                TODO("Not yet implemented")
+                val uri = "tel:" + dealer.phone
+                val intent = Intent(Intent.ACTION_DIAL).also { it.data = Uri.parse(uri) }
+                startActivity(intent)
             }
         })
         binding.carList.adapter = adapter
@@ -89,7 +96,7 @@ class CarListingFragment : Fragment() {
 
     private fun observeEvents() {
         viewModel.observeEvents()
-        viewModel.errors.observe(viewLifecycleOwner){
+        viewModel.errors.observe(viewLifecycleOwner) {
             snackBar?.setText(it)?.show()
         }
     }
