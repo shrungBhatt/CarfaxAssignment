@@ -68,12 +68,9 @@ class CarListingFragment : Fragment() {
     }
 
     private fun observeEvents() {
-        lifecycleScope.launch {
-            viewModel.eventChannel.eventFlow.collectLatest {
-                when (it.type) {
-                    EventType.ERROR, EventType.INVALID_DATA -> snackBar?.setText(it.message)?.show()
-                }
-            }
+        viewModel.observeEvents()
+        viewModel.errors.observe(viewLifecycleOwner){
+            snackBar?.setText(it)?.show()
         }
     }
 

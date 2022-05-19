@@ -1,9 +1,12 @@
 package com.shrungbhatt.carfaxassignment.data.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "car")
 data class Car(
-    @field:SerializedName("id") val id: String?,
+    @PrimaryKey @field:SerializedName("id") val id: String,
     @field:SerializedName("dealer") val dealer: Dealer?,
     @field:SerializedName("vin") val vin: String?,
     @field:SerializedName("mileage") val mileage: Double?,
@@ -54,5 +57,5 @@ data class Dealer(
 )
 
 data class Images(
-    @field:SerializedName("firstPhoto") val map: HashMap<String, String>?
+    @field:SerializedName("firstPhoto") val map: Map<String, String>?
 )

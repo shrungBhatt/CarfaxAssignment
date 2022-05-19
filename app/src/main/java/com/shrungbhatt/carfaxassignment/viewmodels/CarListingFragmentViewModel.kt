@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.shrungbhatt.carfaxassignment.data.models.Car
 import com.shrungbhatt.carfaxassignment.repositories.CarListingRepository
 import com.shrungbhatt.carfaxassignment.util.EventType
-import com.shrungbhatt.carfaxassignment.util.IEventChannel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -15,12 +14,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CarListingFragmentViewModel @Inject constructor(
-    private val repository: CarListingRepository,
-    val eventChannel: IEventChannel
+    private val repository: CarListingRepository
 ) : ViewModel() {
 
     val cars: MutableLiveData<List<Car>> by lazy {
         MutableLiveData<List<Car>>()
+    }
+
+    val errors: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
     }
 
     val isRefreshing = ObservableBoolean()
@@ -29,14 +31,14 @@ class CarListingFragmentViewModel @Inject constructor(
     fun fetchCars() {
         viewModelScope.launch {
             startedLoading()
+            observeResponse()
+            repository.fetchCars()
+        }
+    }
+
+    private fun observeResponse() {
+        viewModelScope.launch {
             repository.latestData
-                .catch {
-                    eventChannel.emitEvent(
-                        EventType.ERROR,
-                        it.message ?: "Unknown error"
-                    )
-                    finishedLoading()
-                }
                 .collect {
                     receivedCars(it)
                     finishedLoading()
@@ -50,6 +52,15 @@ class CarListingFragmentViewModel @Inject constructor(
 
     private fun finishedLoading() {
         isRefreshing.set(false)
+    }
+
+    fun observeEvents() {
+        viewModelScope.launch {
+            repository.eventChannel.eventFlow.collect {
+                finishedLoading()
+                errors.value = it.message
+            }
+        }
     }
 
     private fun receivedCars(cars: List<Car>) {
