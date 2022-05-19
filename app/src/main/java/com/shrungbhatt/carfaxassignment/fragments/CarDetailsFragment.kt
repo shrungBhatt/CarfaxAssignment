@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.shrungbhatt.carfaxassignment.databinding.FragmentCarDetailsBinding
 import com.shrungbhatt.carfaxassignment.viewmodels.CarDetailsFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,7 @@ class CarDetailsFragment: Fragment() {
 
     private lateinit var binding: FragmentCarDetailsBinding
     private val viewModel: CarDetailsFragmentViewModel by viewModels()
+    private val carListingArgs: CarDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +24,6 @@ class CarDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCarDetailsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

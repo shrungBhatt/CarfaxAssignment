@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shrungbhatt.carfaxassignment.data.models.Car
+import com.shrungbhatt.carfaxassignment.data.models.Dealer
 import com.shrungbhatt.carfaxassignment.databinding.ListItemCarBinding
 
-class CarListAdapter : ListAdapter<Car, CarViewHolder>(GalleryDiffCallback()) {
+class CarListAdapter constructor(
+    private val callBack: ICarListAdapterCallback
+) : ListAdapter<Car, CarViewHolder>(GalleryDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
         return CarViewHolder(
             ListItemCarBinding.inflate(
@@ -21,12 +24,20 @@ class CarListAdapter : ListAdapter<Car, CarViewHolder>(GalleryDiffCallback()) {
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
         val car = getItem(position)
-        car.let { holder.bind(it) }
+        car?.let {
+            holder.bind(it)
+            holder.binding.cardView.setOnClickListener {
+                callBack.onCarClick(car)
+            }
+            holder.binding.callDealer.setOnClickListener {
+                car.dealer?.let { dealer -> callBack.onCarDealerClick(dealer) }
+            }
+        }
     }
 }
 
 class CarViewHolder(
-    private val binding: ListItemCarBinding
+    val binding: ListItemCarBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Car) {
         binding.apply {
@@ -44,4 +55,9 @@ private class GalleryDiffCallback : DiffUtil.ItemCallback<Car>() {
     override fun areContentsTheSame(oldItem: Car, newItem: Car): Boolean {
         return oldItem == newItem
     }
+}
+
+interface ICarListAdapterCallback{
+    fun onCarClick(car: Car)
+    fun onCarDealerClick(dealer: Dealer)
 }

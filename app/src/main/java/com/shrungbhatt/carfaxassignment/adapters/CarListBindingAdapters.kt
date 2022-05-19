@@ -4,8 +4,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.shrungbhatt.carfaxassignment.data.models.Car
+import com.shrungbhatt.carfaxassignment.fragments.CarListingFragmentDirections
+import org.w3c.dom.Text
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.math.floor

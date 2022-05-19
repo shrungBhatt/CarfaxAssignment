@@ -1,9 +1,13 @@
 package com.shrungbhatt.carfaxassignment.data.models
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 @Entity(tableName = "car")
 data class Car(
     @PrimaryKey @field:SerializedName("id") val id: String,
@@ -23,7 +27,7 @@ data class Car(
     @field:SerializedName("make") val make: String?,
     @field:SerializedName("model") val model: String?,
     @field:SerializedName("trim") val trim: String?
-) {
+) : Parcelable {
     val dealerPhoneNumber: String
         get() {
             return dealer?.phone ?: ""
@@ -35,27 +39,29 @@ data class Car(
         }
 
     val imageUrlLarge: String
-        get(){
+        get() {
             return images?.map?.get("large") ?: ""
         }
 
     val dealerCity: String
-        get(){
+        get() {
             return dealer?.city ?: ""
         }
 
     val dealerState: String
-        get(){
+        get() {
             return dealer?.state ?: ""
         }
 }
 
+@Parcelize
 data class Dealer(
     val phone: String?,
     val city: String?,
     val state: String?
-)
+): Parcelable
 
+@Parcelize
 data class Images(
     @field:SerializedName("firstPhoto") val map: Map<String, String>?
-)
+):Parcelable
