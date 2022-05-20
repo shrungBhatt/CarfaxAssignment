@@ -34,5 +34,5 @@
 #
 ### __Comments__
 - Choosing navigation fragment instead of a new activity for car details view to provide homogenous navigation to the user
-- Opening the phone screen on click of "call dealer" instead of initiating a call. Because, as per google guidelines they recommend to use pre-existing apps for already available features. So, if we add the call initiation we would have to use the "CALL_PHONE" permission. Which is think is not necessary for just one feature
+- Opening the phone screen on click of "call dealer" instead of initiating a call. Because, as per google guidelines they recommend to use pre-existing apps for already available features. So, if we add the call initiation we would have to use the "CALL_PHONE" permission.
 
