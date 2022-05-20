@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="car"
+            type="com.shrungbhatt.carfaxassignment.data.models.Car" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/call_dealer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/carImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@color/gray"
+                    android:contentDescription="@string/car_image"
+                    android:scaleType="center"
+                    app:imageFromUrl="@{car.imageUrlLarge}" />
+
+                <TextView
+                    android:id="@+id/car_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:make="@{car.make}"
+                    app:model="@{car.model}"
+                    app:trim="@{car.trim}"
+                    app:year="@{car.year}"
+                    tools:text="Car model name" />
+
+                <TextView
+                    android:id="@+id/car_price_mileage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:mileage="@{car.mileage}"
+                    app:price="@{car.currentPrice}"
+                    tools:text="Price | Mileage" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:elevation="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:layout_marginBottom="20dp"
+                            android:text="@string/vehicle_info"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Vehicle Info" />
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp">
+
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/location" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    app:city="@{car.dealerCity}"
+                                    app:state="@{car.dealerState}"
+                                    tools:text="City, State" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/exterior_color" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.exteriorColor}"
+                                    android:textStyle="bold"
+                                    tools:text="Blue" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/interior_color" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.interiorColor}"
+                                    android:textStyle="bold"
+                                    tools:text="Black" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/drive_type" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.driveType}"
+                                    android:textStyle="bold"
+                                    tools:text="FWD" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/transmission" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.transmission}"
+                                    android:textStyle="bold"
+                                    tools:text="Automatic" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/body_style" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.bodyType}"
+                                    android:textStyle="bold"
+                                    tools:text="Sedan" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/engine" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    app:engine="@{car.engine}"
+                                    app:displacement="@{car.displacement}"
+                                    android:textStyle="bold"
+                                    tools:text="4 Cyl 2.4L" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_column="1"
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@string/fuel" />
+
+                                <TextView
+                                    android:layout_gravity="start"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textSize="16sp"
+                                    android:text="@{car.fuel}"
+                                    android:textStyle="bold"
+                                    tools:text="Sedan" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/call_dealer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/call_dealer"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
