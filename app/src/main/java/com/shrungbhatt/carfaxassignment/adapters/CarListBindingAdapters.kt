@@ -42,19 +42,21 @@ fun bindModelName(view: TextView, year: Int?, make: String?, model: String?, tri
     val builder = StringBuilder()
 
     builder.apply {
-        year.let {
+        year?.let {
             append(it)
             append(" ")
         }
-        make.let {
+        make?.let {
             append(it)
             append(" ")
         }
-        model.let {
+        model?.let {
             append(it)
             append(" ")
         }
-        append(trim)
+        trim?.let {
+            append(it)
+        }
     }
 
     view.text = builder.toString()

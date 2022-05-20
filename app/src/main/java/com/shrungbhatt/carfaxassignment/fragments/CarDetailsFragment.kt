@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class CarDetailsFragment: Fragment() {
 
     private lateinit var binding: FragmentCarDetailsBinding
-    private val viewModel: CarDetailsFragmentViewModel by viewModels()
     private val carListingArgs: CarDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
