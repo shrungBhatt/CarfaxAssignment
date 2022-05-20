@@ -17,23 +17,24 @@ class CarListingRepository @Inject constructor(
     val eventChannel: IEventChannel
 ) {
 
-    private val channel = Channel<List<Car>>()
-
-    val latestData: Flow<List<Car>> = channel.receiveAsFlow()
+    private val channel = Channel<Flow<List<Car>>>()
+    val latestData: Flow<Flow<List<Car>>> = channel.receiveAsFlow()
 
     suspend fun fetchCars() {
+        /*
+        Load the cars from the database first and subscribe to the flow,
+         so that when the new data is added, the flow receives the new data
+        */
+        channel.send(carDao.getCars())
 
-        val response: CarListingResponse
+        //Get the latest car from network, and update the database and catch errors
         try {
-            response = service.getCars()
+            val response = service.getCars()
             carDao.saveCars(response.cars)
         } catch (e: Exception) {
             eventChannel.emitEvent(EventType.ERROR, e.message ?: "Unknown Error")
         }
 
-        //Get the cars from the database
-        val cars = carDao.getCars()
-        channel.send(cars)
     }
 
 }

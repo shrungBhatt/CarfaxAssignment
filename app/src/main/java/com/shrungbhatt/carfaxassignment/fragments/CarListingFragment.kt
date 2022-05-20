@@ -26,8 +26,10 @@ import kotlinx.coroutines.launch
 class CarListingFragment : Fragment() {
 
     private lateinit var binding: FragmentCarListingBinding
-    private val viewModel: CarListingFragmentViewModel by viewModels()
     private lateinit var adapter: CarListAdapter
+
+    private val viewModel: CarListingFragmentViewModel by viewModels()
+
     private var fetchJob: Job? = null
     private var snackBar: Snackbar? = null
 
@@ -52,20 +54,22 @@ class CarListingFragment : Fragment() {
         if (viewModel.cars.value == null) getCars()
     }
 
-    private fun setupRecyclerView() {
-        adapter = CarListAdapter(object : ICarListAdapterCallback {
-            override fun onCarClick(car: Car) {
-                binding.root.findNavController().navigate(
-                    CarListingFragmentDirections.actionToCarDetailsFromCarList(car)
-                )
-            }
+    private val carListItemCallBack = object : ICarListAdapterCallback {
+        override fun onCarClick(car: Car) {
+            binding.root.findNavController().navigate(
+                CarListingFragmentDirections.actionToCarDetailsFromCarList(car)
+            )
+        }
 
-            override fun onCarDealerClick(dealer: Dealer) {
-                val uri = "tel:" + dealer.phone
-                val intent = Intent(Intent.ACTION_DIAL).also { it.data = Uri.parse(uri) }
-                startActivity(intent)
-            }
-        })
+        override fun onCarDealerClick(dealer: Dealer) {
+            val uri = "tel:" + dealer.phone
+            val intent = Intent(Intent.ACTION_DIAL).also { it.data = Uri.parse(uri) }
+            startActivity(intent)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = CarListAdapter(carListItemCallBack)
         binding.carList.adapter = adapter
     }
 
@@ -96,8 +100,10 @@ class CarListingFragment : Fragment() {
 
     private fun observeEvents() {
         viewModel.observeEvents()
-        viewModel.errors.observe(viewLifecycleOwner) {
-            snackBar?.setText(it)?.show()
+        lifecycleScope.launchWhenStarted {
+            viewModel.eventChannel.eventFlow.collect {
+                snackBar?.setText(it.message)?.show()
+            }
         }
     }
 
