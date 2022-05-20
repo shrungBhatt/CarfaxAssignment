@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.shrungbhatt.carfaxassignment.R
 import com.shrungbhatt.carfaxassignment.data.models.Car
 import com.shrungbhatt.carfaxassignment.fragments.CarListingFragmentDirections
 import org.w3c.dom.Text
@@ -17,12 +18,12 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 
-//@Todo: Add a placeholder for error
 @BindingAdapter("imageFromUrl")
 fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view.context)
             .load(imageUrl)
+            .error(R.mipmap.ic_launcher)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }
