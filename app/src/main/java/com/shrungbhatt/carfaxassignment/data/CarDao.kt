@@ -13,5 +13,5 @@ interface CarDao {
     suspend fun saveCars(cars: List<Car>)
 
     @Query("SELECT * FROM car")
-    suspend fun getCars(): List<Car>
+    fun getCars(): Flow<List<Car>>
 }
